@@ -1,5 +1,5 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 public class SVGViewport: SVGGroup {
 
@@ -27,7 +27,10 @@ public class SVGViewport: SVGGroup {
         }
     }
 
-    public init(width: SVGLength, height: SVGLength, viewBox: CGRect? = .none, preserveAspectRatio: SVGPreserveAspectRatio, contents: [SVGNode] = []) {
+    public init(
+        width: SVGLength, height: SVGLength, viewBox: CGRect? = .none,
+        preserveAspectRatio: SVGPreserveAspectRatio, contents: [SVGNode] = []
+    ) {
         self.width = width
         self.height = height
         self.viewBox = viewBox
@@ -49,10 +52,11 @@ public class SVGViewport: SVGGroup {
         serializer.add("yAlign", preserveAspectRatio.yAlign)
         super.serialize(serializer)
     }
-    
+
     private func computeSize(parent: CGSize) -> CGSize {
-        return CGSize(width: width.toPixels(total: parent.width),
-                      height: height.toPixels(total: parent.height))
+        return CGSize(
+            width: width.toPixels(total: parent.width),
+            height: height.toPixels(total: parent.height))
     }
 
 }
@@ -67,23 +71,35 @@ struct SVGViewportView: View {
             let viewBox = getViewBox(size: size)
             SVGGroupView(model: model)
                 .transformEffect(getTransform(viewBox: viewBox, size: size))
+                .applyNodeAttributes(model: model)
+                .frame(width: viewBox.width, height: viewBox.height)
+                .onAppear {
+                    print(
+                        "(dg:SVGViewPortView) \(size), \(viewBox); model: \(model.width), \(model.height)"
+                    )
+                }
         }
-        .frame(idealWidth: model.width.ideal, idealHeight: model.height.ideal)
-        .clipped()
+        // .background(Rectangle().stroke(.black, lineWidth: 1))
+        // .frame(idealWidth: model.width.ideal, idealHeight: model.height.ideal)
+        // .clipped()
     }
 
     private func getViewBox(size: CGSize) -> CGRect {
         if let viewBox = model.viewBox {
             return viewBox
         }
-        return CGRect(x: 0,
-                      y: 0,
-                      width: model.width.toPixels(total: size.width),
-                      height: model.height.toPixels(total: size.height))
+        return CGRect(
+            x: 0,
+            y: 0,
+            width: model.width.toPixels(total: size.width),
+            height: model.height.toPixels(total: size.height))
     }
 
-    private func getTransform(viewBox: CGRect, size: CGSize) -> CGAffineTransform {
-        let transform = model.preserveAspectRatio.layout(size: viewBox.size, into: size)
+    private func getTransform(viewBox: CGRect, size: CGSize)
+        -> CGAffineTransform
+    {
+        let transform = model.preserveAspectRatio.layout(
+            size: viewBox.size, into: size)
         // move to (0, 0)
         return transform.translatedBy(x: -viewBox.minX, y: -viewBox.minY)
     }

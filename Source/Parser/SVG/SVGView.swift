@@ -13,6 +13,7 @@ public struct SVGView: View {
 
     public init(contentsOf url: URL) {
         self.svg = SVGParser.parse(contentsOf: url)
+        print("(dg:SVGView) initiallized SVG with \(self.svg?.gestures.count ?? 0) gestures")
     }
 
     @available(*, deprecated, message: "Use (contentsOf:) initializer instead")
@@ -46,6 +47,8 @@ public struct SVGView: View {
 
     public var body: some View {
         svg?.toSwiftUI()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            // .background(Rectangle().stroke(.red, lineWidth: 1))
     }
 
 }

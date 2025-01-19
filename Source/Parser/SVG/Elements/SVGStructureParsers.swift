@@ -16,7 +16,9 @@ class SVGViewportParser: SVGGroupParser {
         let w = Self.parseDimension(attributes, "width") ?? SVGLength(percent: 100)
         let h = Self.parseDimension(attributes, "height") ?? SVGLength(percent: 100)
         let viewBox = Self.parseViewBox(attributes, context: context)
+        // let viewBox = CGRect(x: 0, y:0, width: 285, height: 570)
         let par = Self.parsePreserveAspectRation(string: attributes["preserveAspectRatio"], context: context)
+        print("(dg:SVGStructureParsers) width: \(w), height: \(h), viewBox: \(viewBox ?? CGRect.null)")
         return SVGViewport(width: w, height: h, viewBox: viewBox, preserveAspectRatio: par, contents: parseContents(context: context, delegate: delegate))
     }
 

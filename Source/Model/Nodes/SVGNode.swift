@@ -1,9 +1,10 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 public class SVGNode: SerializableElement {
 
-    @Published public var transform: CGAffineTransform = CGAffineTransform.identity
+    @Published public var transform: CGAffineTransform = CGAffineTransform
+        .identity
     @Published public var opaque: Bool
     @Published public var opacity: Double
     @Published public var clip: SVGNode?
@@ -12,7 +13,11 @@ public class SVGNode: SerializableElement {
 
     var gestures = [AnyGesture<()>]()
 
-    public init(transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil, id: String? = nil) {
+    public init(
+        transform: CGAffineTransform = .identity, opaque: Bool = true,
+        opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil,
+        id: String? = nil
+    ) {
         self.transform = transform
         self.opaque = opaque
         self.opacity = opacity
@@ -25,7 +30,7 @@ public class SVGNode: SerializableElement {
         let frame = frame()
         return CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
     }
-    
+
     public func frame() -> CGRect {
         fatalError()
     }
@@ -34,7 +39,8 @@ public class SVGNode: SerializableElement {
         return self.id == id ? self : .none
     }
 
-    public func onTapGesture(_ count: Int = 1, tapClosure: @escaping ()->()) {
+    public func onTapGesture(_ count: Int = 1, tapClosure: @escaping () -> Void)
+    {
         let newGesture = TapGesture(count: count).onEnded {
             tapClosure()
         }
@@ -70,8 +76,10 @@ extension SVGNode {
         switch self {
         case let model as SVGViewport:
             SVGViewportView(model: model)
+                // .background(Rectangle().stroke(.orange, lineWidth: 1))
         case let model as SVGGroup:
             model.contentView()
+            // .background(Rectangle().stroke(.black, lineWidth: 1))
         case let model as SVGRect:
             model.contentView()
         case let model as SVGText:
@@ -88,6 +96,7 @@ extension SVGNode {
             model.contentView()
         case let model as SVGPath:
             model.contentView()
+                // .background(Rectangle().stroke(.blue, lineWidth: 1))
         case let model as SVGCircle:
             model.contentView()
         case let model as SVGUserSpaceNode:

@@ -52,6 +52,9 @@ extension View {
         self.opacity(model.opacity)
             .applyMask(mask: model.clip, absoluteNode: model)
             .transformEffect(model.transform)
+//            .transformEffect(
+//                ((model as? SVGViewport) == nil &&
+//                (model as? SVGGroup) != nil) ? .identity : model.transform)
             .applyIf(!model.gestures.isEmpty) {
                 $0.gesture(makeOneGesture(model: model))
             }
