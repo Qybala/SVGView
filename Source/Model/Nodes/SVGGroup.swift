@@ -60,7 +60,7 @@ struct SVGGroupView: View {
                             .transformEffect(getTransform(targetSize: proxy.size, size: proxy.size))
                             // .frame(width: proxy.size.width, height: proxy.size.height)
                             .onAppear() {
-                                print("SVGGroupView: id \(model.id); proxy \(proxy.size); transform: \(model.transform)")
+//                                print("SVGGroupView: id \(model.id); proxy \(proxy.size); transform: \(model.transform)")
                             }
                     }
                 }

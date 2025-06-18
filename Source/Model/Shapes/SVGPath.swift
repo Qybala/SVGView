@@ -40,9 +40,9 @@ struct SVGPathView: View {
             let frame = self.model.frame()
             model.toBezierPath().toSwiftUI(model: model, eoFill: model.fillRule == .evenOdd)
             // .background(Rectangle().stroke(.purple, lineWidth: 1))
-                .onAppear() {
-                    print("SVGPathView - \(proxy.size); \(self.model.id) - purple with frame \(self.model.frame())")
-                }
+//                .onAppear() {
+//                    print("SVGPathView - \(proxy.size); \(self.model.id) - purple with frame \(self.model.frame())")
+//                }
                 .frame(width: proxy.size.width, height: proxy.size.height)
             // .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
